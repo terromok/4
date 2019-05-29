@@ -71,6 +71,11 @@ function clickOnTable() {
       let letter = point[3];
       console.log(`${9 - ind}`);
       tdHorse.style.backgroundColor = 'blue';
+      if((letter-3)>=0 && (ind-2)>0) {
+
+        const tdMove = document.getElementById(`col${letter-2}_row${ind-1}`);
+        tdMove.style.backgroundColor = 'green';
+      };
      
   })
 }
