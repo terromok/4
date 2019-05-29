@@ -1,15 +1,6 @@
 //массив с цветами, которые потом будем перемешивать случайным образом
-const leters = ['A', 'B', 'C', 'D','E', 'F', 'G', 'H'];
+const letters = ['A', 'B', 'C', 'D','E', 'F', 'G', 'H'];
 
-let cl = 0;  
-let cl1;
-let cl2;  
-let tdElem1;
-let tdElem2;  
-let timer;          
-
-//отрисовываем таблицу 4х4 и задаем каждой ячейке 
-//класс с названием цвета
 const map = {
   init() {
     // Контейнер, где будут наши ячейки, первоначально его очистим.
@@ -26,7 +17,6 @@ const map = {
         // Создаем ячейку, добавляем ячейке класс cell и id с номером строки и столбца.
         const td = document.createElement('td');
         td.id = (`col${col.toString()}_row${row.toString()}`);
-        
         tr.appendChild(td);
       }
     };
@@ -52,55 +42,41 @@ const map = {
     }
   },
 
-  setLetter(i) {
+  setLetter(l) {
     for (let col = 1; col < 9; col++) {
-      const tdLetter =document.getElementById(`col${col.toString()}_row${i}`);
-      tdLetter.textContent = `${leters[col-1]}`;
+      const tdLetter =document.getElementById(`col${col.toString()}_row${l}`);
+      tdLetter.textContent = `${letters[col-1]}`;
       tdLetter.classList.add(`index`);
     }
+  },
+
+  tableReset() {
+    this.init();
+    this.setColor();
+    this.setIndex(0);
+    this.setIndex(9);
+    this.setLetter(0);
+    this.setLetter(9);
   }
 };
 
 
-function twoClick() {
-   
-  $('#game').on('click', function(e){
-    if (cl === 0) { //проверяем, открыта или нет первая ячейка
-      tdElem1 =document.getElementById(`${e.target.attributes[0].value}`);
-      tdElem1.style.backgroundColor = `${e.target.attributes[2].value}`; //меняем стиль цвета фона ячейки
-      cl1 = `${e.target.attributes[2].value}`; //для сравнения с цветом у второй ячейки
-      cl = 1;} //флаг о том, что первая ячека открыта
-    else { //если первая ячейка открыта, то
-      tdElem2 =document.getElementById(`${e.target.attributes[0].value}`);
-      tdElem2.style.backgroundColor = `${e.target.attributes[2].value}`;//меняем стиль цвета фона ячейки
-      cl2 = `${e.target.attributes[2].value}`;//для сравнения с цветом у первой ячейки
-      cl = 0;//флаг о том, что вторая ячека открыта
-      if (cl1 != cl2) { //если цвета разные, то
-        setTimeout(clearBackGr, 100); //показываем обе ячейки еще 100 мс
-        function clearBackGr() {
-          tdElem1.style.backgroundColor = ""; //фон первой ячейки очищаем
-          tdElem2.style.backgroundColor = ""; //фон второй ячейки очищаем
-        }
-      } else { // если цвета совпадают, то
-        timer++; //счетчик для остановки таймера (при 8)
-        return}; 
-    }
+function clickOnTable() {
+  $('.cell').on('click', function(e){
+      //map.tableReset();
+      const tdHorse =document.getElementById(`${e.target.attributes[0].value}`);
+      const horse = `${e.target.attributes[0].value}`;
+      const point = horse.split('');
+      let ind = point[8];
+      let letter = point[3];
+      console.log(`${9 - ind}`);
+      tdHorse.style.backgroundColor = 'blue';
+     
   })
 }
 
 
 (function($) {
-  map.init();
-  map.setColor();
-  map.setIndex(0);
-  map.setIndex(9);
-  map.setLetter(0);
-  map.setLetter(9);
-  $('#playButton').on('click', function(e){
-    timer = 0;
-      
-    startTimer();
-  });
-  
-  twoClick();
+  map.tableReset();
+  clickOnTable();
 })(jQuery);
