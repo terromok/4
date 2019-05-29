@@ -1,6 +1,8 @@
 //массив с цветами, которые потом будем перемешивать случайным образом
 const letters = ['A', 'B', 'C', 'D','E', 'F', 'G', 'H'];
 
+let tdMove;
+
 const map = {
   init() {
     // Контейнер, где будут наши ячейки, первоначально его очистим.
@@ -67,16 +69,42 @@ function clickOnTable() {
       const tdHorse =document.getElementById(`${e.target.attributes[0].value}`);
       const horse = `${e.target.attributes[0].value}`;
       const point = horse.split('');
-      let ind = point[8];
-      let letter = point[3];
+      let ind = +point[8];
+      let letter = +point[3];
       console.log(`${9 - ind}`);
       tdHorse.style.backgroundColor = 'blue';
-      if((letter-3)>=0 && (ind-2)>0) {
-
-        const tdMove = document.getElementById(`col${letter-2}_row${ind-1}`);
+      if((letter-3)>=0 && (ind-1)>0) {
+        tdMove = document.getElementById(`col${letter-2}_row${ind-1}`);
         tdMove.style.backgroundColor = 'green';
       };
-     
+      if((letter-3)>=0 && (ind+0)<8) {
+        tdMove = document.getElementById(`col${letter-2}_row${ind+1}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if((letter-2)>=0 && (ind-2)>0) {
+        tdMove = document.getElementById(`col${letter-1}_row${ind-2}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if((letter-2)>=0 && (ind+1)<8) {
+        tdMove = document.getElementById(`col${letter-1}_row${ind+2}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if((letter+1)<8 && (ind-1)>0) {
+        tdMove = document.getElementById(`col${letter+2}_row${ind-1}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if((letter+1)<8 && ind<8) {
+        tdMove = document.getElementById(`col${letter+2}_row${ind+1}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if(letter<8 && (ind-2)>0) {
+        tdMove = document.getElementById(`col${letter+1}_row${ind-2}`);
+        tdMove.style.backgroundColor = 'green';
+      };
+      if(letter<8 && (ind+1)<8) {
+        tdMove = document.getElementById(`col${letter+1}_row${ind+2}`);
+        tdMove.style.backgroundColor = 'green';
+      };     
   })
 }
 
@@ -84,4 +112,7 @@ function clickOnTable() {
 (function($) {
   map.tableReset();
   clickOnTable();
+  /*$('.cell').on('click', function(e){
+    map.tableReset();
+  })*/
 })(jQuery);
