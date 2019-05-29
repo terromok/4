@@ -1,6 +1,5 @@
 //массив с цветами, которые потом будем перемешивать случайным образом
-const colors = ['green', 'yellow', 'red', 'blue','green', 'yellow', 'red', 'blue',
-                'orange', 'white', 'purple', 'grey', 'orange', 'white', 'purple', 'grey'];
+const leters = ['A', 'B', 'C', 'D','E', 'F', 'G', 'H'];
 
 let cl = 0;  
 let cl1;
@@ -27,30 +26,39 @@ const map = {
         // Создаем ячейку, добавляем ячейке класс cell и id с номером строки и столбца.
         const td = document.createElement('td');
         td.id = (`col${col.toString()}_row${row.toString()}`);
-        td.classList.add(`cell`);
+        
         tr.appendChild(td);
       }
     };
   },
 
   setColor() {
-    //перемешаем цвета в массиве colors
-    /*let colorsRandom = colors.sort(function(){
-      return Math.random() - 0.5;
-    });*/
-    //let j=0; счетчик перебора ячеек
     for (let row = 1; row < 9; row++) {
       for (let col = 1; col < 9; col++) {
+        const tdBlack =document.getElementById(`col${col.toString()}_row${row.toString()}`);
+        tdBlack.classList.add(`cell`);
         if ((col + row)%2 == 1) {
-          const tdBlack =document.getElementById(`col${col.toString()}_row${row.toString()}`);
           tdBlack.style.backgroundColor = "black";
         }
-        //перебираем каждую ячейку
-        
-        //j++;
       }
     }
-  }/**/
+  },
+
+  setIndex(i) {
+    for (let row = 8; row >0 ; row--) {
+      const tdIndex =document.getElementById(`col${i}_row${row.toString()}`);
+      tdIndex.textContent = `${9-row}`;
+      tdIndex.classList.add(`index`);
+    }
+  },
+
+  setLetter(i) {
+    for (let col = 1; col < 9; col++) {
+      const tdLetter =document.getElementById(`col${col.toString()}_row${i}`);
+      tdLetter.textContent = `${leters[col-1]}`;
+      tdLetter.classList.add(`index`);
+    }
+  }
 };
 
 
@@ -80,34 +88,14 @@ function twoClick() {
   })
 }
 
-function startTimer() {
-    if (timer == 8) {return}; //если все ячейки открыты
-    var my_timer = document.getElementById("my_timer");
-    var time = my_timer.innerHTML;
-    var arr = time.split(":");
-    var m = arr[0];
-    var s = arr[1];
-    var ms = arr[2];
-    ms= +ms + 10;
-    if (ms < 100) ms = "0" + ms;
-    if (ms == 1000) {
-      ms = 0;
-      s++;
-      if (s < 10) s = "0" + s;
-      if (s == 60) {
-        s = "0" + 0;
-        m++;
-        if (m < 10) m = "0" + m;
-      }
-    }
-    
-    document.getElementById("my_timer").innerHTML = m+":"+s+":"+ms;
-    setTimeout(startTimer, 10); //
-  }
 
 (function($) {
   map.init();
   map.setColor();
+  map.setIndex(0);
+  map.setIndex(9);
+  map.setLetter(0);
+  map.setLetter(9);
   $('#playButton').on('click', function(e){
     timer = 0;
       
